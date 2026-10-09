@@ -17,4 +17,4 @@ add_library(lumi STATIC
 target_include_directories(lumi PRIVATE ./headers/)
 
 # FLAGS: -ldxgi -ldxguid -lole32 -liphlpapi
-# These flags will be needed while building any executable using winbun64
+# These flags will be needed while building any executable using lumi
