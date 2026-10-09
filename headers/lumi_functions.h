@@ -16,6 +16,7 @@ void getDisplay(LUMI* lumi);
 void getCurrentUsername(LUMI* lumi);
 void getHostName(LUMI* lumi);
 void getUptime(LUMI* lumi);
+void getKernelUptime(LUMI* lumi);
 void getLocale(LUMI* lumi);
 void getNetwork(LUMI* lumi);
 

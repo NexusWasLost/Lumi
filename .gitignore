@@ -7,3 +7,5 @@ test.c
 obj
 Lumi
 build/
+assets/
+releases/
