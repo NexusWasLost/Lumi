@@ -14,7 +14,6 @@
 #define NETWORK_ADAPTER_NAME_SIZE 128
 #define NETWORK_ADAPTER_DESC_SIZE 256
 #define MAX_DISK_DEVICES 32
-#define DISK_VOL_LABEL_SIZE 16
 #define DISK_FS_NAME_SIZE 16
 
 #include <wchar.h>
@@ -45,8 +44,8 @@ typedef struct Network_Adapters{
 typedef struct Disks{
 
     wchar_t volumeName[MAX_PATH + 1];
-    wchar_t volumeLabel[DISK_VOL_LABEL_SIZE];
     wchar_t fileSystemName[DISK_FS_NAME_SIZE];
+    wchar_t diskVolLabel;
     double freeSpace;
     double usedSpace;
     double totalSpace;

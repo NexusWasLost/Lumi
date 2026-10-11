@@ -4,7 +4,7 @@
 #include "lumi_functions.h"
 
 BOOL getDriveInfo(
-    LPCWSTR currentDriveLabel,
+    LPCWSTR currentVolumePath,
     LPWSTR volumeName,
     DWORD volumeNameSize,
     LPWSTR fileSystemName,
@@ -14,7 +14,7 @@ BOOL getDriveInfo(
 ){
 
     if(!GetVolumeInformationW(
-        currentDriveLabel,
+        currentVolumePath,
         volumeName,
         volumeNameSize,
         NULL, NULL, NULL,
@@ -23,7 +23,7 @@ BOOL getDriveInfo(
     )) return 0;
 
     if(!GetDiskFreeSpaceExW(
-        currentDriveLabel,
+        currentVolumePath,
         NULL, totalBytes, freeBytes
     )) return 0;
 
@@ -56,7 +56,7 @@ void getDisk(LUMI* lumi){
     wchar_t* bufPtr = &volumeList[0]; //pointer pointing to the start of the list
     wchar_t volumeName[MAX_PATH + 1]; //buffer for storing each volume name
     wchar_t fileSystemName[16]; //buffer for storing the file system name for each volume
-    wchar_t currentDriveLabel[16]; //buffer for storing the current drive label
+    wchar_t currentVolumePath[16]; //buffer for storing the current drive label
 
     int index = 0;
     ULARGE_INTEGER freeBytes, totalBytes;
@@ -68,17 +68,17 @@ void getDisk(LUMI* lumi){
         totalBytes.QuadPart = 0;
         wmemset(volumeName, L'\0', MAX_PATH + 1);
         wmemset(fileSystemName, L'\0', 32);
-        wmemset(currentDriveLabel, L'\0', 16);
+        wmemset(currentVolumePath, L'\0', 16);
 
         while(*bufPtr != L'\0'){
-            currentDriveLabel[index] = *bufPtr; //store each character of the drive label
+            currentVolumePath[index] = *bufPtr; //store each character of the drive label
             bufPtr++; //increment the pointer to access the next character
             index++;
         }
 
         //get Drive Info and Drive Space info
         if(!getDriveInfo(
-            currentDriveLabel,
+            currentVolumePath,
             volumeName,
             sizeof(volumeName) / sizeof(volumeName[0]),
             fileSystemName,
@@ -91,12 +91,7 @@ void getDisk(LUMI* lumi){
         }
         bufPtr++;
 
-        //store the disk label
-        swprintf(
-            lumi->disks[lumi->diskCount].volumeLabel,
-            DISK_VOL_LABEL_SIZE, L"%ls",
-            currentDriveLabel
-        );
+        lumi->disks[lumi->diskCount].diskVolLabel = currentVolumePath[0];
         //store the volume name
         swprintf(
             lumi->disks[lumi->diskCount].volumeName,
