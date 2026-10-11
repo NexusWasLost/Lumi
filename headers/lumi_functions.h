@@ -18,6 +18,7 @@ void getHostName(LUMI* lumi);
 void getUptime(LUMI* lumi);
 void getLocale(LUMI* lumi);
 void getNetwork(LUMI* lumi);
+void getDisk(LUMI* lumi);
 
 #ifdef __cplusplus
 }

@@ -13,8 +13,10 @@
 #define MAX_NETWORK_ADAPTER_COUNT 32
 #define NETWORK_ADAPTER_NAME_SIZE 128
 #define NETWORK_ADAPTER_DESC_SIZE 256
+#define MAX_DISK_DEVICES 32
 
 #include <wchar.h>
+#include <windows.h>
 
 typedef struct Display_Monitors{
 
@@ -37,6 +39,16 @@ typedef struct Network_Adapters{
     wchar_t networkAdapterDesc[NETWORK_ADAPTER_DESC_SIZE];
 
 } networkAdapter;
+
+typedef struct Disks{
+
+    wchar_t volumeName[MAX_PATH + 1];
+    wchar_t fileSystemName[16];
+    double freeSpace;
+    double usedSpace;
+    double totalSpace;
+
+} disk;
 
 typedef struct Windows_System_Information{
 
@@ -63,6 +75,9 @@ typedef struct Windows_System_Information{
 
     networkAdapter net_adapters[MAX_NETWORK_ADAPTER_COUNT];
     size_t networkAdapterCount;
+
+    disk disks[MAX_DISK_DEVICES];
+    size_t diskCount;
 
 } LUMI;
 
