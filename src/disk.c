@@ -70,8 +70,8 @@ void getDisk(LUMI* lumi){
     ULARGE_INTEGER freeBytes, totalBytes;
 
     while(*bufPtr != L'\0'){
-        if(lumi->diskCount >= MAX_DISK_DEVICES){
-            printf("Warning: Maximum disk limit (%d) reached. Skipping remaining drives.\n", MAX_DISK_DEVICES);
+        if(lumi->diskCount >= MAX_DISK_COUNT){
+            printf("Warning: Maximum disk limit (%d) reached. Skipping remaining drives.\n", MAX_DISK_COUNT);
             return;
         }
 
@@ -80,7 +80,7 @@ void getDisk(LUMI* lumi){
         freeBytes.QuadPart = 0;
         totalBytes.QuadPart = 0;
         wmemset(volumeName, L'\0', MAX_PATH + 1);
-        wmemset(fileSystemName, L'\0', 32);
+        wmemset(fileSystemName, L'\0', 16);
         wmemset(currentVolumePath, L'\0', 16);
 
         while(*bufPtr != L'\0'){

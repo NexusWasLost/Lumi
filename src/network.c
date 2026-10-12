@@ -14,7 +14,7 @@ void getNetwork(LUMI* lumi){
     lumi->networkAdapterCount = 0;
 
     //This flag tells the API to reuturn list of IP address prefixes
-    //This is an IP Prefix -> 192.168.0.1/24 (The last 24 means total of 256)
+    //This is an IP Prefix -> 192.168.0.1/24 (The last 24 means total of 256) [I dont yet fully understand this thing]
     ULONG flags = GAA_FLAG_INCLUDE_PREFIX;
     ULONG family = AF_UNSPEC; //Allows both IPv4 and IPv6 connections
 
@@ -54,28 +54,31 @@ void getNetwork(LUMI* lumi){
     */
 
     PIP_ADAPTER_ADDRESSES pCurrAddresses = NULL;
-    int connectedDeviceIdx = 0;
 
-        if(dwRetVal == NO_ERROR){
+    if(dwRetVal == NO_ERROR){
         pCurrAddresses = pAddresses;
         while(pCurrAddresses){
+            if(lumi->networkAdapterCount >= MAX_NETWORK_ADAPTER_COUNT){
+                printf("Warning: Maximum network adapter limit (%d) reached. Skipping remaining adapters...\n", MAX_NETWORK_ADAPTER_COUNT);
+                break;
+            }
+
             if((pCurrAddresses->OperStatus) == 1 && (pCurrAddresses->IfType != IF_TYPE_SOFTWARE_LOOPBACK)){
 
                 //copy the name
                 swprintf(
-                    lumi->net_adapters[connectedDeviceIdx].networkAdapterName,
+                    lumi->net_Adapters[lumi->networkAdapterCount].networkAdapterName,
                     NETWORK_ADAPTER_NAME_SIZE, L"%ls",
                     pCurrAddresses->FriendlyName
                 );
                 //copy the description
                 swprintf(
-                    lumi->net_adapters[connectedDeviceIdx].networkAdapterDesc,
+                    lumi->net_Adapters[lumi->networkAdapterCount].networkAdapterDesc,
                     NETWORK_ADAPTER_DESC_SIZE, L"%ls",
                     pCurrAddresses->Description
                 );
 
                 lumi->networkAdapterCount++;
-                connectedDeviceIdx++;
             }
 
             pCurrAddresses = pCurrAddresses->Next; //move to next node

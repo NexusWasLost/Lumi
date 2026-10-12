@@ -1,18 +1,24 @@
 #include <windows.h>
+#include <stdio.h>
 #include "lumi.h"
 #include "lumi_functions.h"
 
 void getDisplay(LUMI* lumi){
     lumi->displayCount = 0;
-    DISPLAY_DEVICE disp = { 0 };
 
-    disp.cb = sizeof(disp);
-
-    for(DWORD x = 0; x < 4; x++){
+    for(DWORD x = 0; ; x++){
+        DISPLAY_DEVICE disp = { 0 };
+        disp.cb = sizeof(disp);
         if (!EnumDisplayDevices(NULL, x, &disp, 0)) break;
 
-        // Skip inactive devices
+        // Skip inactive and mirroring devices
         if (!(disp.StateFlags & DISPLAY_DEVICE_ACTIVE)) continue;
+        if (disp.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER) continue;
+
+        if(lumi->displayCount >= MAX_DISPLAY_COUNT){
+            printf("Warning: Maximum display limit (%d) reached. Skipped remaining displays.\n", MAX_DISPLAY_COUNT);
+            return;
+        }
 
         DEVMODE devmode = { 0 };
         devmode.dmSize = sizeof(DEVMODE);
