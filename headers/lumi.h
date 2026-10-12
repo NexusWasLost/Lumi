@@ -43,9 +43,9 @@ typedef struct Network_Adapters{
 
 typedef struct Disks{
 
-    wchar_t volumeName[MAX_PATH + 1];
+    wchar_t volumeLabel[MAX_PATH + 1];
     wchar_t fileSystemName[DISK_FS_NAME_SIZE];
-    wchar_t diskVolLabel;
+    wchar_t driveLetter;
     double freeSpace;
     double usedSpace;
     double totalSpace;

@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <stdio.h>
+#include <math.h>
 #include "lumi.h"
 #include "lumi_functions.h"
 
@@ -30,12 +31,19 @@ BOOL getDriveInfo(
     return 1;
 }
 
-// void printDriveSpace(unsigned long long freeBytes, unsigned long long totalBytes) {
-//     double freeGB = (double)freeBytes / (1024.0 * 1024.0 * 1024.0);
-//     double totalGB = (double)totalBytes / (1024.0 * 1024.0 * 1024.0);
+void storeSpaces(LUMI* lumi, PULARGE_INTEGER freeBytes, PULARGE_INTEGER totalBytes){
+    // Calculate used space in bytes first
+    unsigned long long usedBytes = totalBytes->QuadPart - freeBytes->QuadPart;
 
-//     printf("%.2f GB Free / %.2f GB Total\n", freeGB, totalGB);
-// }
+    // Convert to Megabytes (MB) using binary divisor (1024 * 1024)
+    double freeMB = (double)(freeBytes->QuadPart) / (1024.0 * 1024.0);
+    double totalMB = (double)(totalBytes->QuadPart) / (1024.0 * 1024.0);
+    double usedMB = (double)(usedBytes) / (1024.0 * 1024.0);
+
+    lumi->disks[lumi->diskCount].freeSpace = round(freeMB * 100) / 100;
+    lumi->disks[lumi->diskCount].usedSpace = round(usedMB * 100) / 100;
+    lumi->disks[lumi->diskCount].totalSpace = round(totalMB * 100) / 100;
+}
 
 void getDisk(LUMI* lumi){
     lumi->diskCount = 0;
@@ -91,10 +99,15 @@ void getDisk(LUMI* lumi){
         }
         bufPtr++;
 
-        lumi->disks[lumi->diskCount].diskVolLabel = currentVolumePath[0];
+        if(volumeName[0] == L'\0'){
+            //Drives like C:\ have no label so copy wstring "No Label" to volumeName buffer
+            wcscpy_s(volumeName, MAX_PATH + 1, L"No Label");
+        }
+
+        lumi->disks[lumi->diskCount].driveLetter = currentVolumePath[0];
         //store the volume name
         swprintf(
-            lumi->disks[lumi->diskCount].volumeName,
+            lumi->disks[lumi->diskCount].volumeLabel,
             MAX_PATH + 1, L"%ls",
             volumeName
         );
@@ -105,15 +118,7 @@ void getDisk(LUMI* lumi){
             fileSystemName
         );
         //store spaces
-        lumi->disks[lumi->diskCount].freeSpace = freeBytes.QuadPart;
-        lumi->disks[lumi->diskCount].totalSpace = totalBytes.QuadPart;
-        lumi->disks[lumi->diskCount].usedSpace = 0.0;
+        storeSpaces(lumi, &freeBytes, &totalBytes);
         lumi->diskCount++;
-
-        // printf("Drive Label: %ls\n", currentDriveLabel);
-        // printf("Drive Name: %ls\n", volumeName);
-        // printf("FileSystem: %ls\n", fileSystemName);
-        // printf("Space on Disk %ls: ", currentDriveLabel);
-        // printDriveSpace(freeBytes.QuadPart, totalBytes.QuadPart);
     }
 }
