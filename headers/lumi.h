@@ -2,7 +2,7 @@
 #ifndef LUMI_H
 #define LUMI_H
 
-#define __LUMI_VERSION "3.3"
+#define __LUMI_VERSION "3.4"
 
 #define OS_PRODUCT_NAME_SIZE 64
 #define OS_BUILD_NUMBER_SIZE 32
@@ -13,8 +13,11 @@
 #define MAX_NETWORK_ADAPTER_COUNT 32
 #define NETWORK_ADAPTER_NAME_SIZE 128
 #define NETWORK_ADAPTER_DESC_SIZE 256
+#define MAX_DISK_DEVICES 32
+#define DISK_FS_NAME_SIZE 16
 
 #include <wchar.h>
+#include <windows.h>
 
 typedef struct Display_Monitors{
 
@@ -37,6 +40,17 @@ typedef struct Network_Adapters{
     wchar_t networkAdapterDesc[NETWORK_ADAPTER_DESC_SIZE];
 
 } networkAdapter;
+
+typedef struct Disks{
+
+    wchar_t volumeLabel[MAX_PATH + 1];
+    wchar_t fileSystemName[DISK_FS_NAME_SIZE];
+    wchar_t diskLetter;
+    double freeSpace;
+    double usedSpace;
+    double totalSpace;
+
+} disk;
 
 typedef struct Windows_System_Information{
 
@@ -63,6 +77,9 @@ typedef struct Windows_System_Information{
 
     networkAdapter net_adapters[MAX_NETWORK_ADAPTER_COUNT];
     size_t networkAdapterCount;
+
+    disk disks[MAX_DISK_DEVICES];
+    size_t diskCount;
 
 } LUMI;
 

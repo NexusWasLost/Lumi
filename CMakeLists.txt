@@ -12,6 +12,7 @@ add_library(lumi STATIC
     ./src/uptime.c
     ./src/username.c
     ./src/network.c
+    ./src/disk.c
 )
 
 target_include_directories(lumi PRIVATE ./headers/)
