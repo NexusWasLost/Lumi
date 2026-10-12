@@ -45,7 +45,7 @@ typedef struct Disks{
 
     wchar_t volumeLabel[MAX_PATH + 1];
     wchar_t fileSystemName[DISK_FS_NAME_SIZE];
-    wchar_t driveLetter;
+    wchar_t diskLetter;
     double freeSpace;
     double usedSpace;
     double totalSpace;

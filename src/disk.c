@@ -70,6 +70,11 @@ void getDisk(LUMI* lumi){
     ULARGE_INTEGER freeBytes, totalBytes;
 
     while(*bufPtr != L'\0'){
+        if(lumi->diskCount >= MAX_DISK_DEVICES){
+            printf("Warning: Maximum disk limit (%d) reached. Skipping remaining drives.\n", MAX_DISK_DEVICES);
+            return;
+        }
+
         //reset all variables and buffers
         index = 0;
         freeBytes.QuadPart = 0;
@@ -104,7 +109,7 @@ void getDisk(LUMI* lumi){
             wcscpy_s(volumeName, MAX_PATH + 1, L"No Label");
         }
 
-        lumi->disks[lumi->diskCount].driveLetter = currentVolumePath[0];
+        lumi->disks[lumi->diskCount].diskLetter = currentVolumePath[0];
         //store the volume name
         swprintf(
             lumi->disks[lumi->diskCount].volumeLabel,
