@@ -19,7 +19,10 @@ void getGPU(LUMI* lumi){
     lumi->gpuCount = 0;
 
     while(TRUE){
-        if(lumi->gpuCount >= MAX_GPU_COUNT) return;
+        if(lumi->gpuCount >= MAX_GPU_COUNT){
+            printf("Warning: Maximum GPU device limit (%d) reached. Skipping remaining devices.\n", MAX_GPU_COUNT);
+            return;
+        }
 
         HRESULT hr = factory->lpVtbl->EnumAdapters1(factory, index, &adapter);
 

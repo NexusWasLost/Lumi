@@ -59,9 +59,14 @@ void getNetwork(LUMI* lumi){
     PIP_ADAPTER_ADDRESSES pCurrAddresses = NULL;
     int connectedDeviceIdx = 0;
 
-        if(dwRetVal == NO_ERROR){
+    if(dwRetVal == NO_ERROR){
         pCurrAddresses = pAddresses;
         while(pCurrAddresses){
+            if(lumi->networkAdapterCount >= MAX_NETWORK_ADAPTER_COUNT){
+                printf("Warning: Maximum Network adapters limit (%d) reached. Skipping remaining adapters.\n", MAX_NETWORK_ADAPTER_COUNT);
+                break;
+            }
+
             if((pCurrAddresses->OperStatus) == 1 && (pCurrAddresses->IfType != IF_TYPE_SOFTWARE_LOOPBACK)){
 
                 //copy the name

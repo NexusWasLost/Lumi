@@ -8,7 +8,7 @@ void getDisplay(LUMI* lumi){
 
     disp.cb = sizeof(disp);
 
-    for(DWORD x = 0; x < 4; x++){
+    for(DWORD x = 0; x < MAX_DISPLAY_COUNT; x++){
         if (!EnumDisplayDevices(NULL, x, &disp, 0)) break;
 
         // Skip inactive devices
