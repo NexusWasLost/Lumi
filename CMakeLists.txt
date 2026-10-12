@@ -16,6 +16,13 @@ add_library(lumi STATIC
 )
 
 target_include_directories(lumi PRIVATE ./headers/)
+target_link_libraries(lumi PRIVATE iphlpapi)
+
+if(MSVC)
+    target_compile_options(lumi PRIVATE \W4)
+else()
+    target_compile_options(lumi PRIVATE -Wall -Wextra)
+endif()
 
 # FLAGS: -ldxgi -ldxguid -lole32 -liphlpapi
 # These flags will be needed while building any executable using lumi

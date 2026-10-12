@@ -6,14 +6,11 @@
 #include "lumi.h"
 #include "lumi_functions.h"
 
-#pragma comment(lib, "IPHLPAPI.lib")
-
 #define MAX_TRIES 3
 #define BASE_BUFFER_SIZE 15000
 
 void getNetwork(LUMI* lumi){
     DWORD dwRetVal = 0;
-    unsigned int i = 0;
     lumi->networkAdapterCount = 0;
 
     //This flag tells the API to reuturn list of IP address prefixes
@@ -85,7 +82,7 @@ void getNetwork(LUMI* lumi){
         }
     }
     else{
-        printf("Call to GetAdaptersAddresses failed with error: %d\n", dwRetVal);
+        printf("Call to GetAdaptersAddresses failed with error: %lu\n", dwRetVal);
         if (dwRetVal == ERROR_NO_DATA)
             printf("No addresses were found for the requested parameters\n");
     }
