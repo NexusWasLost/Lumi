@@ -2,7 +2,10 @@
 #ifndef LUMI_H
 #define LUMI_H
 
-#define __LUMI_VERSION "3.5"
+#define LUMI_VERSION_MAJOR 4
+#define LUMI_VERSION_MINOR 0
+#define LUMI_VERSION_PATCH 0
+#define LUMI_VERSION_STRING "4.0.0"
 
 #define OS_PRODUCT_NAME_SIZE 64
 #define OS_BUILD_NUMBER_SIZE 32
@@ -52,7 +55,7 @@ typedef struct Disks{
 
 } Disk;
 
-typedef struct Windows_System_Information{
+typedef struct Lumi_Windows_System_Information{
 
     char CPU[49];
     char CPU_Architecture[8];
