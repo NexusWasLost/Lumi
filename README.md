@@ -15,7 +15,7 @@
 
 ## Getting Started
 
-To get started with Lumi, download the [latest release]() or see [building Lumi from source]().<br><br>
+To get started with Lumi, download the [latest release](https://github.com/NexusWasLost/Lumi/releases/latest) or see [building Lumi from source](#Building-Lumi-from-source).<br><br>
 
 Here is a code example to get a taste of Lumi:
 
@@ -75,7 +75,7 @@ These limits can be adjusted by modifying the corresponding macros and rebuildin
 - [MSVC](https://visualstudio.microsoft.com/vs/features/cplusplus/): Not supported without source code modifications and rebuilding the library.
 <br>
 
-## Building Lumi from Source
+## Building Lumi from source
 
 The library can be built from source if needed.
 
@@ -112,7 +112,7 @@ This will output `liblumi.a` inside a build directory inside the project root.
 
 To build Lumi using MSVC, few things in the source code needs to be changed, moreover compiling using MSVC is not tested.
 
-View [Changes needed while compiling using MSVC](). After making those changes to source code follow the below steps to build the library:
+View [Changes needed while compiling using MSVC](#Changes-needed-while-compiling-using-MSVC). After making those changes to source code follow the below steps to build the library:
 
 1. Initialize CMake (CMake targets MSVC NMake by default on Windows)
 ```shell
@@ -161,13 +161,13 @@ This should output `liblumi.lib` inside a build directory inside the project roo
 | `usedMemory`          | `unsigned long long`                             | `getMemory()`          | Used physical memory in MB.          |
 | `memoryLoad`          | `unsigned long long`                             | `getMemory()`          | Current memory load as a percentage. |
 | `uptime`              | `unsigned long long`                             | `getUptime()`          | System uptime in seconds.            |
-| `gpu`                 | [`GPU[MAX_GPU_COUNT]`](#)                        | `getGPU()`             | Array of detected GPUs.              |
+| `gpu`                 | [`GPU[MAX_GPU_COUNT]`](#GPU)                        | `getGPU()`             | Array of detected GPUs.              |
 | `gpuCount`            | `size_t`                                         | `getGPU()`             | Number of detected GPUs.             |
-| `monitors`            | [`Display[MAX_DISPLAY_COUNT]`](#)                | `getDisplay()`         | Array of active displays.            |
+| `monitors`            | [`Display[MAX_DISPLAY_COUNT]`](#Display)                | `getDisplay()`         | Array of active displays.            |
 | `displayCount`        | `size_t`                                         | `getDisplay()`         | Number of active displays.           |
-| `net_Adapters`        | [`NetworkAdapter[MAX_NETWORK_ADAPTER_COUNT]`](#) | `getNetwork()`         | Array of active network adapters.    |
+| `net_Adapters`        | [`NetworkAdapter[MAX_NETWORK_ADAPTER_COUNT]`](#NetworkAdapter) | `getNetwork()`         | Array of active network adapters.    |
 | `networkAdapterCount` | `size_t`                                         | `getNetwork()`         | Number of active network adapters.   |
-| `disks`               | [`Disk[MAX_DISK_COUNT]`](#)                      | `getDisk()`            | Array of detected disks.             |
+| `disks`               | [`Disk[MAX_DISK_COUNT]`](#Disk)                      | `getDisk()`            | Array of detected disks.             |
 | `diskCount`           | `size_t`                                         | `getDisk()`            | Number of detected disks.            |
 
 Each function called once will populate every field related to that particular function. For example `getCPU()` will populate `CPU` and `CPU Architecture` field with just one call.<br>
