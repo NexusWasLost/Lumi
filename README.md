@@ -1,31 +1,23 @@
-# Lumi
+<div align=center>
+	<img src="https://i.postimg.cc/Y95Sr2J6/lumi-logo.png" alt="logo">
+</div>
 
-Lumi is a lightweight C library for fetching system information on Windows.
+<div align=center>
+	<img src="https://img.shields.io/badge/license-Zlib-green?style=plastic" alt="license">
+	<img src="https://img.shields.io/github/v/release/NexusWasLost/Lumi?style=plastic" alt="latest release">
+	<img src="https://img.shields.io/badge/platform-Windows-pink?style=plastic" alt="latest release">
+</div>
 
-Lumi is written in C and compatible with C++ aswell.
+<br><br>
+**Lumi** is a lightweight C library built for fetching system information on Windows. Lumi is written in C and is fully compatible with C++.
 
-## Supported Constraints
+<br>
 
-- *CPU Architectures:* x86_64 (64 bit, AMD64), should work on x86 (32  bit systems; Not tested).
+## Getting Started
 
-- *Maximum Monitor Resolutions:* 4.
+To get started with Lumi, download the [latest release]() or see [building Lumi from source]().<br><br>
 
-- *Maximum GPUs:* 4.
-
-- *Windows Version Tested:* Windows 11 and Windows 10 (may work on 7, 8, 8.1, Vista, XP; Not tested).
-
-- *Compilers:* Lumi is compiled using [GCC (MinGW)](https://nuwen.net/mingw.html) so its fully supported; [Clang](https://clang.llvm.org/) should work (not tested); [MSVC](https://visualstudio.microsoft.com/vs/features/cplusplus/) **not supported** without changing source code and rebuild.
-
-## Downloading the Library
-
-Lumi is shipped as a static library (`.a`) alongside headers files in an "include" folder.
-
-- `include/` - contains `lumi.h` and `lumi_functions.h`.
-- `lib/` - contains `liblumi.a` (the actual library).
-
-Download the library from [releases](https://github.com/NexusWasLost/Lumi/releases/).
-
-## Example Code
+Here is a code example to get a taste of Lumi:
 
 ```c
 #include <stdio.h>
@@ -34,10 +26,6 @@ Download the library from [releases](https://github.com/NexusWasLost/Lumi/releas
 
 int main(){
 	LUMI lumi; //define a LUMI variable
-
-	printf("Version: ");
-	printf(__LUMI_VERSION);
-	printf("\n");
 
 	getCPU(&lumi); //call needed function
 	getMemory(&lumi);
@@ -60,19 +48,36 @@ int main(){
 }
 ```
 
-Each function populates a struct variable named `lumi` with respective info.
-
-Assuming the code file is called `main.c`, Compile using `gcc`:
+Create a file called `main.c` and paste the above given code, then compile using GCC (assuming Lumi version 4.0.0):
 
 ```shell
-gcc main.c -o main.exe -I"path-to-include-headers" -L"path-to-library" -llumi -ldxgi -ldxguid -lole32 -liphlpapi
+gcc main.c -o main.exe -I./Lumi_v4.0.0/include -L./Lumi_v4.0.0/lib -llumi -ldxgi -ldxguid -lole32 -liphlpapi
 ```
 
-## Building from Source
+This is will output a `main.exe` which can be ran using: `./main.exe` !<br><br>
+
+## Supported Constraints
+
+- **Operating Systems:** Windows 10 and Windows 11 (tested).
+- **CPU Architectures:** x86_64 (AMD64); x86 (32-bit, not tested).
+
+**Maximum Supported Hardware:**
+- Displays: 6.
+- GPUs: 4.
+- Network adapters: 32.
+- Disks: 32.
+
+These limits can be adjusted by modifying the corresponding macros and rebuilding the library.
+
+**Compilers:**
+- [GCC (MinGW)](https://nuwen.net/mingw.html): Fully supported and primarily used for development.
+- [Clang](https://clang.llvm.org/): Expected to work, but not tested.
+- [MSVC](https://visualstudio.microsoft.com/vs/features/cplusplus/): Not supported without source code modifications and rebuilding the library.
+<br>
+
+## Building Lumi from Source
 
 The library can be built from source if needed.
-
-*Compiler:* GCC or Clang Toolchain and CMake.
 
 1. Clone the repository
 
@@ -86,21 +91,126 @@ git clone https://github.com/NexusWasLost/Lumi.git
 cd Lumi
 ```
 
-### Build using CMake
+### 🔸 Compiling using GCC (MinGW) or Clang
+
+Lumi is primarily compiled using GCC (MinGW) and should work with Clang though not tested.
+
 
 1. Initialize CMake
 ```shell
 cmake -B build -G "MinGW Makefiles"
 ```
 
-2. Build the library (CMake creates it in build directory)
+2. Build the library
 ```shell
 cmake --build build
 ```
 
----
+This will output `liblumi.a` inside a build directory inside the project root.
 
-### 🔸 **Building with MSVC**
+### 🔸 Compiling using MSVC
+
+To build Lumi using MSVC, few things in the source code needs to be changed, moreover compiling using MSVC is not tested.
+
+View [Changes needed while compiling using MSVC](). After making those changes to source code follow the below steps to build the library:
+
+1. Initialize CMake (CMake targets MSVC NMake by default on Windows)
+```shell
+cmake -B build
+```
+
+2. Build the library
+```shell
+cmake --build build
+```
+
+This should output `liblumi.lib` inside a build directory inside the project root.<br><br>
+
+## List of Functions
+
+| Function                              | Description                                                                                                                  |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `void getMemory(LUMI* lumi)`          | Retrieves total, available, and used physical memory, along with memory load.                                                |
+| `void getCPU(LUMI* lumi)`             | Retrieves the CPU brand string and architecture.                                                                             |
+| `void getGPU(LUMI* lumi)`             | Retrieves graphics adapter names and total VRAM for each adapter.                                                            |
+| `void getOS(LUMI* lumi)`              | Retrieves the Windows product name, version, and build number.                                                               |
+| `void getDisplay(LUMI* lumi)`         | Retrieves the resolution and refresh rate of each active display.                                                            |
+| `void getCurrentUsername(LUMI* lumi)` | Retrieves the current username.                                                                                              |
+| `void getHostName(LUMI* lumi)`        | Retrieves the computer's hostname.                                                                                           |
+| `void getUptime(LUMI* lumi)`          | Retrieves system uptime in seconds.                                                                                          |
+| `void getLocale(LUMI* lumi)`          | Retrieves the system locale.                                                                                                 |
+| `void getNetwork(LUMI* lumi)`         | Retrieves information about active network adapters.                                                                         |
+| `void getDisk(LUMI* lumi)`            | Retrieves disk information, including drive letter, volume label, free space, used space, total space, and file system name. |
+
+<br>
+
+## List of Fields
+
+| Field                 | Type                                             | Function               | Description                          |
+| --------------------- | ------------------------------------------------ | ---------------------- | ------------------------------------ |
+| `CPU`                 | `char[49]`                                       | `getCPU()`             | CPU brand string.                    |
+| `CPU_Architecture`    | `char[8]`                                        | `getCPU()`             | CPU architecture.                    |
+| `OS_ProductName`      | `char[OS_PRODUCT_NAME_SIZE]`                     | `getOS()`              | Windows product name.                |
+| `OS_Version`          | `char[OS_VERSION_SIZE]`                          | `getOS()`              | Windows version string.              |
+| `OS_BuildNumber`      | `char[OS_BUILD_NUMBER_SIZE]`                     | `getOS()`              | Windows build number.                |
+| `host`                | `char[16]`                                       | `getHostName()`        | Computer hostname.                   |
+| `locale`              | `wchar_t[16]`                                    | `getLocale()`          | System locale.                       |
+| `currentUserName`     | `char[32]`                                       | `getCurrentUsername()` | Current username.                    |
+| `totalMemory`         | `unsigned long long`                             | `getMemory()`          | Total physical memory in MB.         |
+| `availableMemory`     | `unsigned long long`                             | `getMemory()`          | Available physical memory in MB.     |
+| `usedMemory`          | `unsigned long long`                             | `getMemory()`          | Used physical memory in MB.          |
+| `memoryLoad`          | `unsigned long long`                             | `getMemory()`          | Current memory load as a percentage. |
+| `uptime`              | `unsigned long long`                             | `getUptime()`          | System uptime in seconds.            |
+| `gpu`                 | [`GPU[MAX_GPU_COUNT]`](#)                        | `getGPU()`             | Array of detected GPUs.              |
+| `gpuCount`            | `size_t`                                         | `getGPU()`             | Number of detected GPUs.             |
+| `monitors`            | [`Display[MAX_DISPLAY_COUNT]`](#)                | `getDisplay()`         | Array of active displays.            |
+| `displayCount`        | `size_t`                                         | `getDisplay()`         | Number of active displays.           |
+| `net_Adapters`        | [`NetworkAdapter[MAX_NETWORK_ADAPTER_COUNT]`](#) | `getNetwork()`         | Array of active network adapters.    |
+| `networkAdapterCount` | `size_t`                                         | `getNetwork()`         | Number of active network adapters.   |
+| `disks`               | [`Disk[MAX_DISK_COUNT]`](#)                      | `getDisk()`            | Array of detected disks.             |
+| `diskCount`           | `size_t`                                         | `getDisk()`            | Number of detected disks.            |
+
+Each function called once will populate every field related to that particular function. For example `getCPU()` will populate `CPU` and `CPU Architecture` field with just one call.<br>
+
+### Sub Structs
+
+#### Display
+
+| Field         | Type  | Description                 |
+| ------------- | ----- | --------------------------- |
+| `width`       | `int` | Display width in pixels.    |
+| `height`      | `int` | Display height in pixels.   |
+| `refreshRate` | `int` | Display refresh rate in Hz. |
+
+#### GPU
+
+| Field       | Type                     | Description               |
+| ----------- | ------------------------ | ------------------------- |
+| `GPU_Name`  | `wchar_t[GPU_NAME_SIZE]` | GPU name.                 |
+| `totalVRAM` | `unsigned long long`     | Total video memory in MB. |
+
+#### NetworkAdapter
+
+| Field                | Type                                 | Description                  |
+| -------------------- | ------------------------------------ | ---------------------------- |
+| `networkAdapterName` | `wchar_t[NETWORK_ADAPTER_NAME_SIZE]` | Network adapter name.        |
+| `networkAdapterDesc` | `wchar_t[NETWORK_ADAPTER_DESC_SIZE]` | Network adapter description. |
+
+
+#### Disk
+
+| Field            | Type                         | Description                 |
+| ---------------- | ---------------------------- | --------------------------- |
+| `volumeLabel`    | `wchar_t[MAX_PATH + 1]`      | Disk volume label.          |
+| `fileSystemName` | `wchar_t[DISK_FS_NAME_SIZE]` | File system name.           |
+| `diskLetter`     | `wchar_t`                    | Drive letter.               |
+| `freeSpace`      | `double`                     | Available disk space in GB. |
+| `usedSpace`      | `double`                     | Used disk space in GB.      |
+| `totalSpace`     | `double`                     | Total disk space in GB.     |
+
+<br>
+
+## 🔹 Changes needed while compiling using MSVC
 
 (Not Tested) In `cpu.c`, replace GCC specific - `<cpuid.h>` and `__get_cpuid()` with MSVC equivalents:
 
@@ -118,56 +228,7 @@ void getCPU(LUMI* lumi){
 }
 ```
 
-Now build using CMake (CMake targets MSVC NMake by default on Windows)
-
-```shell
-cmake -B build
-```
-```shell
-cmake --build build
-```
-
----
-
-## List of Fields and Functions
-
-| Field                                      | Type                              | Function                                                                                 | Description                              |
-| ------------------------------------------ | --------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------- |
-| `CPU`                                      | `char[]`                          | `getCPU()`                                                                               | CPU Brand String                         |
-| `CPU_Architecture`                         | `char[]`                          | `getCPU()`                                                                               | CPU Architecture                         |
-| `OS_ProductName`                           | `char[]`                          | `getOS()`                                                                                | Windows Product Name                     |
-| `OS_version`                               | `char[]`                          | `getOS()`                                                                                | OS version String                        |
-| `OS_buildNumber`                           | `char[]`                          | `getOS()`                                                                                | Windows Build Number                     |
-| `host`                                     | `char[]`                          | `getHostName()`                                                                          | Computer Hostname                        |
-| `locale`                                   | `wchar_t[]`                       | `getLocale()`                                                                            | System Locale                            |
-| `currentUserName`                          | `char[]`                          | `getCurrentUsername()`                                                                   | Logged in username                       |
-| `totalMemory`                              | `unsigned long long`              | `getMemory()`                                                                            | Total Physical Memory (in MB)            |
-| `availableMemory`                          | `unsigned long long`              | `getMemory()`                                                                            | Total Available Memory (in MB)           |
-| `usedMemory`                               | `unsigned long long`              | `getMemory()`                                                                            | Total Used Memory (in MB)                |
-| `memoryLoad`                               | `unsigned long long`              | `getMemory()`                                                                            | Current Memory Load (Percentage)         |
-| `uptime`                                   | `unsigned long long`              | `getUptime()`                                                                            | System Uptime (in seconds)               |
-| `gpu`                                      | `GPU[]`                           | `getGPU()`                                                                               | List of GPUs Detected                    |
-| `GPU_Name`, `totalVRAM`                    | `wchar_t[]`, `unsigned long long` | *calling `getGPU()` automatically populates these 2 fields for each GPU*                 | GPU Name and total VRAM                  |
-| `gpuCount`                                 | `size_t`                             | `getGPU()`                                                                               | Total Number of GPUs Detected            |
-| `monitors`                                 | `Display[]`                       | `getDisplay()`                                                                           | Total Number of Monitors Detected        |
-| `width`, `height`, `refreshRate`           | `int, int, int`                   | *calling `getDisplay()` automatically populates these 3 fields for each monitor*         | Monitor Resolution and Refresh Rate      |
-| `displayCount`                             | `size_t`                             | `getDisplay()`                                                                           | Total Number of Active Displays Detected |
-| `net_adapters`                             | `networkAdapter[]`                | `getNetwork()`                                                                           | List of active network adapters          |
-| `networkAdapterName`, `networkAdapterDesc` | `wchar_t[]`, `wchar_t[]`          | *calling `getNetwork()` automatically populates these 2 fields for each network adapter* | Network Adapter Name and Description     |
-| `networkAdapterCount`                      | `size_t`                          | `getNetwork()`                                                                           | Number of active network adapters        |
-
-Each function called once will populate every field related to that particular function. For example `getCPU()` will populate `CPU` and `CPU Architecture` field with just one call. Fields that can have multiple data for example GPU and Network Adapters follow the same rule.
-
-### Units
-
-| Field                        | Unit      |
-| ---------------------------- | --------- |
-| `uptime`                     | Seconds   |
-| `memory`                     | MB        |
-| `VRAM`                       | MB        |
-| Display `width` and `height` | Pixels    |
-| Display `refreshRate`        | Hz        |
-
+<br>
 
 ## How Does it Work ?
 
