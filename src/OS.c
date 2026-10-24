@@ -19,11 +19,11 @@ void setOSProductName(int majorBuildNumber, LUMI* lumi, char* productName){
 }
 
 void setOSVersion(LUMI* lumi, char* versionNumber){
-    strncpy(lumi->OS_version, versionNumber, OS_VERSION_SIZE);
+    strncpy(lumi->OS_Version, versionNumber, OS_VERSION_SIZE);
 }
 
 void setOSBuildNumber(LUMI* lumi, char* buildNumber){
-    strncpy(lumi->OS_buildNumber, buildNumber, OS_BUILD_NUMBER_SIZE);
+    strncpy(lumi->OS_BuildNumber, buildNumber, OS_BUILD_NUMBER_SIZE);
 }
 
 void getOS(LUMI* lumi){
@@ -118,8 +118,8 @@ void getOS(LUMI* lumi){
     setOSBuildNumber(lumi, buildNumber);
 
     lumi->OS_ProductName[63] = '\0';
-    lumi->OS_buildNumber[31] = '\0';
-    lumi->OS_version[7] = '\0';
+    lumi->OS_BuildNumber[31] = '\0';
+    lumi->OS_Version[7] = '\0';
 
     RegCloseKey(hkey);
 }

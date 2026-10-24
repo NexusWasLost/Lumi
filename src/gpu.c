@@ -20,7 +20,7 @@ void getGPU(LUMI* lumi){
 
     while(TRUE){
         if(lumi->gpuCount >= MAX_GPU_COUNT){
-            printf("Warning: Maximum GPU device limit (%d) reached. Skipping remaining devices.\n", MAX_GPU_COUNT);
+            printf("Warning: Maximum GPU limit (%d) reached. Skipping remaining GPU devices...\n", MAX_GPU_COUNT);
             return;
         }
 
