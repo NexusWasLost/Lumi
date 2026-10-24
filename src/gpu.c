@@ -1,8 +1,14 @@
 #include <stdio.h>
 #include <windows.h>
 #include <dxgi.h>
+#include <string.h>
 #include "lumi.h"
 #include "lumi_functions.h"
+
+#define VENDOR_NVIDIA 0x10DE
+#define VENDOR_AMD 0x1002
+#define VENDOR_INTEL 0x8086
+#define VENDOR_UNKNOWN 0
 
 void getGPU(LUMI* lumi){
     IDXGIFactory1* factory = NULL;
@@ -46,6 +52,10 @@ void getGPU(LUMI* lumi){
             continue;
         }
 
+        // printf("Vendor: %u\n", desc.VendorId);
+        if(desc.VendorId == VENDOR_NVIDIA){
+            printf("Vendor: %s\n", "NVIDIA");
+        }
         //uses lumi->gpuCount as the index
         swprintf(
             lumi->gpu[lumi->gpuCount].GPU_Name,
