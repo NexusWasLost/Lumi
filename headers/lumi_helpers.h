@@ -18,37 +18,30 @@ static double convertMBtoGB(double megabytes){
 /*
 Convert wide string (UTF16) to normal strings (UTF8)
 */
-static void UTF16toUTF8(const wchar_t* wideString, char* buffer, size_t bufferlen){
-    if(!wideString || !buffer){
-        printf("Failed to convert UTF16 string to UTF8 string: Wide String and character buffer must be provided for conversion.\n");
-        return;
+static size_t UTF16toUTF8(const wchar_t* wideString, char* buffer, size_t bufferlen){
+    if(!wideString){
+        printf("Failed to convert UTF16 string to UTF8 string: Wide String must be provided for conversion.\n");
+        return 0;
+    }
+
+    //Passing 0 as the writing buffer size returns the size required
+    int requiredBytes = WideCharToMultiByte(CP_UTF8, 0, wideString, -1, NULL, 0, NULL, NULL);
+
+    if(requiredBytes == 0) return 0;
+    if(!buffer){
+        return (size_t)requiredBytes;
     }
 
     if(bufferlen == 0 || bufferlen > INT_MAX){
         printf("Failed to convert UTF16 string to UTF8 string: The buffer length is too large.\n");
+        return 0;
     }
 
+    //2nd pass
     int bytesWritten = WideCharToMultiByte(CP_UTF8, 0, wideString, -1, buffer, (int)bufferlen, NULL, NULL);
-    if(bytesWritten == 0){
-        DWORD err = GetLastError();
-        switch(err){
-            case ERROR_INSUFFICIENT_BUFFER:
-                printf("Failed to convert UTF16 string to UTF8 string: Insufficient buffer size.\n");
-                break;
+    if(bytesWritten == 0) return 0;
 
-            case ERROR_INVALID_PARAMETER:
-                printf("Failed to convert UTF16 string to UTF8 string: Invalid params, check what is passed to the function.\n");
-                break;
-
-            case ERROR_NO_UNICODE_TRANSLATION:
-                printf("Failed to convert UTF16 string to UTF8 string: No Unicode translation found.\n");
-                break;
-
-            default:
-                printf("Failed to convert UTF16 string to UTF8 string.\n");
-                break;
-        }
-    }
+    return (size_t)bytesWritten;
 }
 
 #ifdef __cplusplus
