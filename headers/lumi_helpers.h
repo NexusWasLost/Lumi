@@ -3,6 +3,7 @@
 #define LUMI_HELPERS_H
 
 #include "lumi.h"
+#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {
