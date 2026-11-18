@@ -2,10 +2,10 @@
 #ifndef LUMI_H
 #define LUMI_H
 
-#define LUMI_VERSION_MAJOR 4
-#define LUMI_VERSION_MINOR 1
-#define LUMI_VERSION_PATCH 2
-#define LUMI_VERSION_STRING "4.1.2_dev"
+#define LUMI_VERSION_MAJOR 5
+#define LUMI_VERSION_MINOR 0
+#define LUMI_VERSION_PATCH 0
+#define LUMI_VERSION_STRING "5.0.0-dev"
 
 #define OS_PRODUCT_NAME_SIZE 64
 #define OS_BUILD_NUMBER_SIZE 32
@@ -49,9 +49,9 @@ typedef struct Disks{
     wchar_t volumeLabel[MAX_PATH + 1];
     wchar_t fileSystemName[DISK_FS_NAME_SIZE];
     wchar_t diskLetter;
-    double freeSpace;
-    double usedSpace;
-    double totalSpace;
+    unsigned long long freeSpace;
+    unsigned long long usedSpace;
+    unsigned long long totalSpace;
 
 } Disk;
 

@@ -12,9 +12,8 @@ extern "C" {
 /*
 Convert MB to GB
 */
-static double convertMBtoGB(double megabytes){
-    if(megabytes < 0.0) return 0.0;
-    return megabytes / 1024.0;
+static double convertMBtoGB(unsigned long long megabytes){
+    return (double)megabytes / 1024.0;
 }
 
 /*

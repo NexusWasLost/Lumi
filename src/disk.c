@@ -1,6 +1,5 @@
 #include <windows.h>
 #include <stdio.h>
-#include <math.h>
 #include "lumi.h"
 #include "lumi_functions.h"
 
@@ -36,13 +35,9 @@ void storeSpaces(LUMI* lumi, PULARGE_INTEGER freeBytes, PULARGE_INTEGER totalByt
     unsigned long long usedBytes = totalBytes->QuadPart - freeBytes->QuadPart;
 
     // Convert to Megabytes (MB) using binary divisor (1024 * 1024)
-    double freeMB = (double)(freeBytes->QuadPart) / (1024.0 * 1024.0);
-    double totalMB = (double)(totalBytes->QuadPart) / (1024.0 * 1024.0);
-    double usedMB = (double)(usedBytes) / (1024.0 * 1024.0);
-
-    lumi->disks[lumi->diskCount].freeSpace = round(freeMB * 100) / 100;
-    lumi->disks[lumi->diskCount].usedSpace = round(usedMB * 100) / 100;
-    lumi->disks[lumi->diskCount].totalSpace = round(totalMB * 100) / 100;
+    lumi->disks[lumi->diskCount].freeSpace = freeBytes->QuadPart / (1024ULL * 1024ULL);
+    lumi->disks[lumi->diskCount].usedSpace = usedBytes / (1024ULL * 1024ULL);
+    lumi->disks[lumi->diskCount].totalSpace = totalBytes->QuadPart / (1024ULL * 1024ULL);
 }
 
 void getDisk(LUMI* lumi){
